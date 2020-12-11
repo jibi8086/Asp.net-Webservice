@@ -43,11 +43,11 @@ def normalize_values(points,disp):
     else:
         return stress_value,"low_stress"
     
-detector = dlib.get_frontal_face_detector() #
+detector = dlib.get_frontal_face_detector() #dectect face
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat") #dectect the face
-emotion_classifier = load_model("_mini_XCEPTION.102-0.66.hdf5", compile=False)
+emotion_classifier = load_model("_mini_XCEPTION.102-0.66.hdf5", compile=False) #dectect emotions related
 cap = cv2.VideoCapture(0)#video capture
-points = []
+points = [] #declare array
 while(True): #start
     _,frame = cap.read() # read the frame from camera
     frame = cv2.flip(frame,1)#flip the frame
