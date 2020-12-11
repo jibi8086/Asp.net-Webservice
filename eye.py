@@ -43,24 +43,24 @@ def normalize_values(points,disp):
     else:
         return stress_value,"low_stress"
     
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+detector = dlib.get_frontal_face_detector() #
+predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat") #dectect the face
 emotion_classifier = load_model("_mini_XCEPTION.102-0.66.hdf5", compile=False)
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)#video capture
 points = []
-while(True):
-    _,frame = cap.read()
-    frame = cv2.flip(frame,1)
-    frame = imutils.resize(frame, width=500,height=500)
+while(True): #start
+    _,frame = cap.read() # read the frame from camera
+    frame = cv2.flip(frame,1)#flip the frame
+    frame = imutils.resize(frame, width=500,height=500) #set the video frame
     
     
-    (lBegin, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eyebrow"]
+    (lBegin, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eyebrow"] #track left and right eyebrow
     (rBegin, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eyebrow"]
 
     #preprocessing the image
     gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
     
-    detections = detector(gray,0)
+    detections = detector(gray,0)# find direction
     for detection in detections:
         emotion = emotion_finder(detection,gray)
         cv2.putText(frame, emotion, (10,10),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
@@ -85,8 +85,8 @@ while(True):
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
         break
-cv2.destroyAllWindows()
-cap.release()
-plt.plot(range(len(points)),points,'ro')
-plt.title("Stress Levels")
-plt.show()
+cv2.destroyAllWindows() #close video window
+cap.release() #
+plt.plot(range(len(points)),points,'ro') #plot the data
+plt.title("Stress Levels")  #add title
+plt.show() #show the image and window
